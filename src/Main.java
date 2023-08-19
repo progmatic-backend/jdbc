@@ -17,7 +17,7 @@ public class Main {
             // Létrehozunk egy kapcsolatot az adatbázissal
             Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
 
-            // 
+            // Létrehozunk egy Statementet, amin majd SQL parancsokat tudunk futtatni
             Statement statement = connection.createStatement();
 
             // Végrehajtunk egy lekérdezést
