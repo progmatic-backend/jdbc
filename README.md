@@ -37,7 +37,11 @@ Connection connection = DriverManager.getConnection(
      "felhasznalonev",
      "jelszo" );
 ```
-Mivel a `Connection` implementálja az `Autocloseable` interfészt, ezért használhatjuk try-with-resources-zal:
+A mostani példában a hibakezelés egy nagy try-cath blokkba lett összevonva - ez nem szép, de most a 
+legegyszerűbb megoldásra törekedtünk.
+
+A későbbiekben mivel a `Connection` implementálja az `Autocloseable` interfészt,
+ezért akár használhatjuk try-with-resources-zal:
 ```
 try (Connection connection = DriverManager
 .getConnection("jdbc:mysql://localhost:3306/adatbazis_neve", "felhasznalonev", "jelszo")) {
@@ -123,7 +127,9 @@ Az alábbi SQL típusokra így lehet konvertálni változókat a Java nyelvből:
 |           |    setTime()    |  
 |           | setTimestamp()  |  
 
-## 1. Összes pizza összes adata
+## Lekérdezések
+
+### 0. Összes pizza összes adata
 Futtasd le és értelmzed a már meglévő kódot, ami kilistázza az összes pizza összes adatát!
 
 ### 1.a Összes pizza azonosítója és neve
@@ -134,11 +140,18 @@ Ne legyenek nem használt változók a kódodban!
 Írd át úgy a kódot, hogy a pizzáknak csak a nevei legyenek kiírva és ügyelj arra, hogy továbbra se maradjanak
 felesleges sorok a programodban!
 
-## 2. Olcsó pizzák
-Listázd ki a max. 1000 Ft-ba kerülő pizzák adatait!
+### 2. Olcsó pizzák
+Listázd ki a max. 1000 Ft-ba kerülő pizzák adatait! Az ár szerinti szűrést mely helyeken tudnád megtenni?
+Csináld meg mindkétféleképpen!
 
-## 3. Átlagos pizzaár
+### 3. Átlagos pizzaár
 Írd ki, mennyibe kerül átlagosan egy pizza!
 
 ## 4. Burzsuj pizzák
 Írd ki, hány darab átlagár feletti pizza van!
+
+## Extrák
+A leírásban szerepelt, hogy JDBC 4.0-tól nincs szükség a `Class.forName()` metódussal betölteni a drivert,
+próbáld ki, hogy ezt a sort kikommenteled! Mi történik, miért?
+
+## Hibák

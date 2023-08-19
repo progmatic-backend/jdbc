@@ -21,17 +21,17 @@ public class Main {
             Statement statement = connection.createStatement();
 
             // Végrehajtunk egy lekérdezést
-            String sqlQuery = "SELECT AVG(par) avgar FROM pizza";
+            String sqlQuery = "SELECT * FROM pizza";
             ResultSet resultSet = statement.executeQuery(sqlQuery);
 
             // A ResultSet-be kerülnek be ilyenkor a lekrédezés eredményei
             // Ezen végigiterálunk és kiírjuk őket egyesével
             while (resultSet.next()) {
+                int azonosito = resultSet.getInt("pazon");
+                String nev = resultSet.getString("pnev");
+                int ar = resultSet.getInt("par");
 
-
-                int ar = resultSet.getInt("avgar");
-
-                System.out.println("Név: " + ar);
+                System.out.println("Azonosító: " + azonosito + ", Név: " + nev + ", Ár:" + ar);
             }
 
             // Lezárjuk az erőforrásokat, mivel rendkívül elegáns programozók vagyunk
