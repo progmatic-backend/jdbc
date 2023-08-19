@@ -89,21 +89,14 @@ try {
 A `PreparedStatement` használata hasonlít a `Statement` használatához, de dinamikusan paraméterezhető:
 
 ```
-PreparedStatement preparedStatement = connection.prepareStatement( "SELECT i.*, j.* FROM Omega i, Zappa j WHERE i = ? AND j = ?" );
-try {
-    preparedStatement.setString(1, "Zámbó Jimmy");
-    preparedStatement.setInt(2, 666);
-    ResultSet resultSet = preparedStatement.executeQuery();
-    try {
-        while (resultSet.next()) {
-	    // Sorfeldolgozás.
-        }
-    } finally {
-        resultSet.close();
-   }
-} finally {
-   preparedStatement.close();
-}
+ String query = "INSERT INTO persons(name, birthYear) VALUES( ?, ?)";
+
+ PreparedStatement preparedStatement = connection.prepareStatement(query);
+ 
+ preparedStatement.setString(1, "Dzsámbó Zimmy");
+ preparedStatement.setInt(2, 1958);
+ 
+ preparedStatement.executeUpdate();
 ```
 
 Az alábbi SQL típusokra így lehet konvertálni változókat a Java nyelvből:
@@ -129,29 +122,55 @@ Az alábbi SQL típusokra így lehet konvertálni változókat a Java nyelvből:
 
 ## Lekérdezések
 
-### 0. Összes pizza összes adata
+### 0.) Összes pizza összes adata
 Futtasd le és értelmzed a már meglévő kódot, ami kilistázza az összes pizza összes adatát!
 
-### 1.a Összes pizza azonosítója és neve
+### 1.) Azonosítók és nevek
 Módosítsd a programod, hogy a pizzáknak ne írja ki minden adatát, csak az azonosítójukat és nevüket!
 Ne legyenek nem használt változók a kódodban!
 
-### 1.b Összes pizza neve
+### 2.) Csak a nevek
 Írd át úgy a kódot, hogy a pizzáknak csak a nevei legyenek kiírva és ügyelj arra, hogy továbbra se maradjanak
 felesleges sorok a programodban!
 
-### 2. Olcsó pizzák
+### 3.) Olcsó pizzák
 Listázd ki a max. 1000 Ft-ba kerülő pizzák adatait! Az ár szerinti szűrést mely helyeken tudnád megtenni?
 Csináld meg mindkétféleképpen!
 
-### 3. Átlagos pizzaár
+### 4.) Átlagos pizzaár
 Írd ki, mennyibe kerül átlagosan egy pizza!
 
-## 4. Burzsuj pizzák
+### 5.) Burzsuj pizzák
 Írd ki, hány darab átlagár feletti pizza van!
+
+## Hibák
+Próbáld ki mi történik, ha
+- rossz jelszót adsz meg a Connectionnek
+- nem létező adatbázishoz akarsz csatlakozni
+- elgépeled a lekérdezést (pl. `SELECT` helyett azt irod, hogy `SELECC`)
+- nem létező táblát adsz meg a lekérdezésben
+- nem létező oszlopot adsz meg a lekérdezésben vagy a ResultSet parse-olásakor
+
+
+## Példányosítás
+Készítsünk az adatbázisunkban szereplő pizza tábla soraiból Pizza objektumokat!
+A táblában 5 sor van, tehát 5 darab pizzát fogunk példányosítani. 
+Ehhez Java kódban is meg kell írnunk egy Pizza osztályt, ami tartalmazza a megfelelő attribútumokat (id, név, ár).
+
+**Tipp**: használj record-ot sima class helyett!
+
+További lépések:
+- készíts egy pizzákat tartalmazó listát (`pizzaList`), inicializáld egy üres ArrayList-tel
+- az SQL lekérdezésedet írd át arra, hogy az összes pizza összes adatát kérdezze le
+- az eredményhalmazon való végigiteráláskor hívd meg a Pizza osztály konstruktorát a megfelelő adatokkal és
+add ezt hozzá a `pizzaList`-hez!
+
+Írasd ki a `pizzaList`-et!
+
+Ilyesmit kéne látnod:
+`[Pizza[id=1, name=Capricciosa, price=1050], Pizza[id=2, name=Frutti di Mare, price=1350], Pizza[id=3, name=Hawaii, price=850], Pizza[id=4, name=Vesuvio, price=900], Pizza[id=5, name=Sorrento, price=1050]]
+`
 
 ## Extrák
 A leírásban szerepelt, hogy JDBC 4.0-tól nincs szükség a `Class.forName()` metódussal betölteni a drivert,
 próbáld ki, hogy ezt a sort kikommenteled! Mi történik, miért?
-
-## Hibák
